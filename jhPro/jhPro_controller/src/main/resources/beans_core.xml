@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	         xsi:schemaLocation="http://www.springframework.org/schema/beans
+                                 http://www.springframework.org/schema/beans/spring-beans.xsd
+                                 http://www.springframework.org/schema/context
+                                 http://www.springframework.org/schema/context/spring-context.xsd
+                                 http://www.springframework.org/schema/aop
+                                 http://www.springframework.org/schema/aop/spring-aop.xsd
+                                 http://www.springframework.org/schema/tx
+                                 http://www.springframework.org/schema/tx/spring-tx.xsd"
+                                 >
+    <context:component-scan base-package="com.wm">
+       <!-- 去除对控制层的重复扫描 -->
+       <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>                             
+	
+	<!-- 引入外部的 properties文件-->
+	<context:property-placeholder location="classpath:db.properties"/>
+	<!-- c3p0数据源注入 -->
+	<bean id="ds" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+	   <property name="driverClass" value="${db_driver}"/>
+	   <property name="jdbcUrl" value="${db_url}"/>
+	   <property name="user" value="${db_uname}"/>
+	   <property name="password" value="${db_pwd}"/>
+	</bean>
+	
+	<!-- 实例化SqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	    <property name="configLocation" value="classpath:mybatisconf.xml"/>
+	    <property name="dataSource" ref="ds"/>
+	    <property name="typeAliasesPackage" value="com.wm.bean"/>
+	    <property name="mapperLocations" value="classpath:com/wm/dao/*.xml"/>
+	</bean>
+	
+	<!-- 实例化dao层的实现类（由mapper代理模式生成的实现类） -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	   <!-- 指定dao层接口（实现类）所在的包名 -->
+	   <property name="basePackage" value="com.wm.dao"/>
+	</bean>
+	
+	
+	
+	
+</beans>

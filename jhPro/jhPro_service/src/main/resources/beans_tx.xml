@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	         xsi:schemaLocation="http://www.springframework.org/schema/beans
+                                 http://www.springframework.org/schema/beans/spring-beans.xsd
+                                 http://www.springframework.org/schema/context
+                                 http://www.springframework.org/schema/context/spring-context-4.3.xsd
+                                 http://www.springframework.org/schema/aop
+                                 http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+                                 http://www.springframework.org/schema/tx
+                                 http://www.springframework.org/schema/tx/spring-tx.xsd"
+                                 >
+    
+	
+	<!-- 实例化事务的切面类（代理类） -->
+	<bean id="tx" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	    <property name="dataSource" ref="ds"/>
+	</bean>
+	
+	<!-- 事务的通知：事务的特性 -->
+	<tx:advice id="myadvice" transaction-manager="tx">
+	   <tx:attributes>
+	      <!-- name:指定连接点 
+	      isolation：隔离级别，DEFAULT隔离级别和数据库保持一致 
+	      propagation：传播行为：设置当前业务所处的事务环境REQUIRED：如果有事务就使用当前的事务环境，否则会开启一个新的事务 
+	      read-only：是否只读  -->
+	      <tx:method name="*" isolation="DEFAULT" propagation="REQUIRED" read-only="true"/>
+	      <tx:method name="save*" isolation="DEFAULT" propagation="REQUIRED" read-only="false"/>
+	      <tx:method name="upd*" isolation="DEFAULT" propagation="REQUIRED" read-only="false"/>
+	      <tx:method name="del*" isolation="DEFAULT" propagation="REQUIRED" read-only="false"/>
+	   </tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+	   <aop:pointcut expression="execution(* com.wm.service.*.*(..))" id="pid"/>
+	   <aop:advisor advice-ref="myadvice" pointcut-ref="pid"/>
+	</aop:config>
+
+	
+</beans>
