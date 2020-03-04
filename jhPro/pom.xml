@@ -21,7 +21,7 @@
         <ph-v>5.0.0</ph-v>
         <mybatis-v>3.4.2</mybatis-v>
         <mybspri-v>1.3.1</mybspri-v>
-        <jackson-v>2.7.9</jackson-v>
+        <jackson-v>2.9.10.3</jackson-v>
         <valid-v>5.4.1.Final</valid-v>
     </properties>
 
