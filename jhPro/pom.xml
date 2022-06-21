@@ -15,7 +15,7 @@
     </modules>
 
     <properties>
-        <mysql-v>5.1.41</mysql-v>
+        <mysql-v>8.0.28</mysql-v>
         <spring-v>4.3.6.RELEASE</spring-v>
         <c3p0-v>0.9.1</c3p0-v>
         <ph-v>5.0.0</ph-v>
