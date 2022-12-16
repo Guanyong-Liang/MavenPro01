@@ -16,7 +16,7 @@
 
     <properties>
         <mysql-v>5.1.41</mysql-v>
-        <spring-v>4.3.6.RELEASE</spring-v>
+        <spring-v>5.2.20.RELEASE</spring-v>
         <c3p0-v>0.9.1</c3p0-v>
         <ph-v>5.0.0</ph-v>
         <mybatis-v>3.4.2</mybatis-v>
